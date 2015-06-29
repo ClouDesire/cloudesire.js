@@ -113,12 +113,13 @@ function ClouDesireAPIclient(){
             var productFiles =  product.files;
             var productCategory = product.category;
             var productSKU =  product.sku;
+            var productIsSyndicated = product.isSyndicated;
 
             //print product icon
             this.print_product_icon(productId, productFiles);
 
             //print product versions
-            this.print_product_versions(productId, productCategory, productSKU, productVersions);
+            this.print_product_versions(productId, productIsSyndicated, productCategory, productSKU, productVersions);
         }.bind(this));
     }
     
@@ -166,7 +167,7 @@ function ClouDesireAPIclient(){
     /*
      * appends to the product div all the available versions
      */
-    this.print_product_versions = function(productId, productCategory, productSKU, productVersions) {
+    this.print_product_versions = function(productId, productIsSyndicated, productCategory, productSKU, productVersions) {
         
         productVersions.forEach(function(productVersion) {
             
@@ -179,6 +180,8 @@ function ClouDesireAPIclient(){
             var productCategoryUrl = productCategory.url;
             var productCategoryUrlArray = productCategoryUrl.split("/");
             var categoryNumber = productCategoryUrlArray[1];
+            var categoryName = this.categories_list[categoryNumber];
+
 
             var productVersionMember = this.api_client.one('productVersion', versionNumber);
             productVersionMember.get().then(function(response) {
@@ -186,6 +189,7 @@ function ClouDesireAPIclient(){
                 var productVersion = response.body().data();
                 var productVersionId = productVersion.id;  
                 var productVersionBillingPeriod = productVersion.billingPeriod;
+                var productVersionPrice = productVersion.price;
 
                 //append the product versions info to the product div
                 var productVersionHTML = 
@@ -195,28 +199,35 @@ function ClouDesireAPIclient(){
 
                 jQuery("#cloudesire_product_" + productId).append(productVersionHTML);
                 
-                //for each provider, calculate the price and append it to the related product version div
-                this.providers_list.forEach(function(provider) {
-                    var providerId = provider.id;
-                    var providerAlias = provider.alias;
-                    var categoryName = this.categories_list[categoryNumber];
+                //calculate instance prices only if app is not syndicated
+                if (!Boolean(productIsSyndicated)) {
+                    //for each provider, calculate the price and append it to the related product version div
+                    this.providers_list.forEach(function(provider) {
+                        var providerId = provider.id;
+                        var providerAlias = provider.alias;
+                        
+                        var buyNowHTML = this.build_buy_now_link(categoryNumber, categoryName, productId, productSKU, versionNumber, providerId);
+                        
+                        //append the provider info to the product version div
+                        var providerHTML = "<div class=\"cloudesire_provider_container\" id=\"cloudesire_provider_" + providerId + "\">" + 
+                            buyNowHTML +
+                            " on <span class=\"cloudesire_provider_name\">" + providerAlias + "</span></span>"
+                            "</div>";
 
-                    var marketplaceProductURL = this.marketplace_URL + 
-                        "/marketplace/category/" + categoryNumber + "/" + categoryName + "/product/" + productId + "/" + productSKU + "/order" +
-                        "?version=" + versionNumber + "&amp;provider=" + providerId + "&amp;&period=1&amp;type=NORMAL";
+                        jQuery("#cloudesire_product_version_"+ productVersionId).append(providerHTML);
 
-                    //append the provider info to the product version div
-                    var providerHTML = "<div class=\"cloudesire_provider_container\" id=\"cloudesire_provider_" + providerId + "\">" + 
-                        "<a class=\"cloudesire_marketplace_url\" href=\"" + marketplaceProductURL + "\">buy now</a>" +
-                        " on <span class=\"cloudesire_provider_name\">" + providerAlias + "</span></span>"
-                        "</div>";
+                        //append to the product version div the estimations for each provider 
+                        this.print_budget_estimate(productVersionId, providerId, productVersionBillingPeriod);
 
-                    jQuery("#cloudesire_product_version_"+ productVersionId).append(providerHTML);
-
-                    //append to the product version div the estimations for each provider 
-                    this.print_budget_estimate(productVersionId, providerId, productVersionBillingPeriod);
-
-                }.bind(this));
+                    }.bind(this));
+                }
+                //syndicated apps
+                else {
+                    var priceHTML = this.format_price(productVersionPrice, productVersionBillingPeriod);
+                    var buyNowHTML = this.build_buy_now_link(categoryNumber, categoryName, productId, productSKU, versionNumber, 0);
+                    
+                    jQuery("#cloudesire_product_" + productId).append(buyNowHTML + priceHTML);
+                }
             }.bind(this));
         }.bind(this))
     }
@@ -248,17 +259,43 @@ function ClouDesireAPIclient(){
             var estimate = response.body().data();
             var totalPrice = estimate.totalPrice;
 
-            var billingFrequencyLabel = " per month";
-            if (productVersionBillingPeriod > 1)
-                billingFrequencyLabel = " each " + billingFrequencyLabel + " months";
-
-            var providerPriceHTML = " for <span class=\"cloudesire_provider_price\">" + totalPrice + " EUR" +
-                    "</span>" + billingFrequencyLabel;
+            var providerPriceHTML = this.format_price(totalPrice, productVersionBillingPeriod);
 
             jQuery("#cloudesire_provider_" + providerId).append(providerPriceHTML);
 
-        });
+        }.bind(this));
 
+    }
+    
+    /*
+    * format prices 
+    */
+    this.build_buy_now_link = function(categoryNumber, categoryName, productId, productSKU, versionNumber, providerId) {
+        var marketplaceProductURL = this.marketplace_URL + 
+            "/marketplace/category/" + categoryNumber + "/" + categoryName + "/product/" + productId + "/" + productSKU + "/order" +
+            "?version=" + versionNumber;
+        
+        if (providerId) marketplaceProductURL += "&amp;provider=" + providerId;
+        
+        marketplaceProductURL += "&amp;&period=1&amp;type=NORMAL";
+        
+        var buyNowHTML = "<a class=\"cloudesire_marketplace_url\" href=\"" + marketplaceProductURL + "\">buy now</a>";
+            
+        return buyNowHTML;
+    }
+    
+    /*
+    * format prices 
+    */
+    this.format_price = function(price, billingPeriod) {
+        var billingFrequencyLabel = " per month";
+        if (billingPeriod > 1)
+             billingFrequencyLabel = " each " + billingPeriod + " months";
+        
+        var priceHTML = " for <span class=\"cloudesire_provider_price\">" + price + " EUR" +
+                    "</span>" + billingFrequencyLabel;
+            
+        return priceHTML;
     }
     
     
