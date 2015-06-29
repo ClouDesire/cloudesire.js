@@ -1,0 +1,8 @@
+{
+  "name": "cloudesire.js",
+  "version": "0.0.1",
+  "main": "cloudesire.js",
+  "dependencies": {	
+    "rest": "~1.3.1"
+  }
+}
