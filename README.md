@@ -5,6 +5,12 @@ A simple Javascript library for ClouDesire API.
 It uses RESTful HTTP client for JavaScript http://cujojs.com/
 
 
+How to install:
+---------------
+
+* Install it with Bower `bower install cloudesire.js`
+
+
 Usage
 -----
 
