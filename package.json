@@ -3,17 +3,13 @@
   "version": "1.0.0",
   "description": "ClouDesire API Client",
   "main": "lib/client.js",
-  "watch": {
-    "test": "{src,test}/*.js"
-  },
   "scripts": {
     "compile": "babel src -d lib && browserify src/client.js -t [babelify --no-sourceMaps] -p [minifyify --no-map] -s cd -o lib/client.web.js",
     "prepublish": "npm run compile",
     "docs": "documentation build src/client.js -o README.md -f md",
-    "test": "npm run eslint && npm run compile && mocha --compilers js:babel-register",
+    "test": "npm run eslint && npm run compile && mocha --compilers js:babel-register --reporter mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js",
     "eslint": "eslint src",
-    "dev": "npm run watch",
-    "watch": "npm-watch"
+    "dev": "npm run eslint && npm run compile && mocha --compilers js:babel-register"
   },
   "repository": {
     "type": "git",
@@ -43,10 +39,12 @@
     "browserify": "^13.0.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^5.2.0",
+    "coveralls": "^2.11.8",
     "eslint": "^2.4.0",
     "fetch-mock": "^4.1.1",
     "minifyify": "^7.3.2",
     "mocha": "^2.4.5",
+    "mocha-lcov-reporter": "^1.2.0",
     "mockery": "^1.4.1"
   },
   "dependencies": {
