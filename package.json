@@ -7,9 +7,9 @@
     "compile": "babel src -d lib && browserify src/client.js -t [babelify --no-sourceMaps] -p [minifyify --no-map] -s cd -o lib/client.web.js",
     "prepublish": "npm run compile",
     "docs": "documentation build src/client.js -o README.md -f md",
-    "test": "npm run eslint && npm run compile && mocha --compilers js:babel-register --reporter mocha-lcov-reporter | ./node_modules/coveralls/bin/coveralls.js",
+    "test": "npm run eslint && npm run compile && istanbul cover _mocha -- --compilers js:babel-register -R spec test/ && cat ./coverage/lcov.info | coveralls",
     "eslint": "eslint src",
-    "dev": "npm run eslint && npm run compile && mocha --compilers js:babel-register"
+    "test-dev": "npm run eslint && npm run compile && mocha --compilers js:babel-register"
   },
   "repository": {
     "type": "git",
@@ -42,9 +42,9 @@
     "coveralls": "^2.11.8",
     "eslint": "^2.4.0",
     "fetch-mock": "^4.1.1",
+    "istanbul": "^1.0.0-alpha.2",
     "minifyify": "^7.3.2",
     "mocha": "^2.4.5",
-    "mocha-lcov-reporter": "^1.2.0",
     "mockery": "^1.4.1"
   },
   "dependencies": {
