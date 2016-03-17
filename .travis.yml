@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+- '5'
+deploy:
+  provider: npm
+  email: origin.of@gmail.com
+  api_key:
+    secure: UwKc+hZ4/6Ruhx4anG65qUnAXsAE8yAQ3wrc5nMFMpMt24Kov7DKKyz+4klRJanCo5d1qIz7Ceple5jjhqaA9TkgpiqsQPK5f+1vMIksMR+qbdcpaeMyOtvtW9/XTVUCBClqIPld/SWNeooEftE6IVYNsD7b429Lko7B9YHVSY7+Hf5XNsnKYroyPP6zYGjB3RZYuC3nvNmFOYUhRBEHnVOqwDt/1dplkhClb6lJ0NcM8FVvrN2HLNG9xDm1GRXuXE7Z6cuCa23X7qU5+lmbTB6i6pMiClP4X98BoZ8pEJVLgUmCSjyvraexYTPV18UABEDPVZr5cAp7/2pOZISvbJ9ePTUBNKBS6EM9Y4QAK7OQ93/YQf3R0FpUgibpriZbLx7n5KpLPbDcIEj3cRdzyUwfc7j6jc1iKfLEaCtbkTElR1l186JaHeXCJheKxVrsFYK543g32v2eHIwWwqDeZOgM2FqlBhJ1b+aE3xIl8/XLkfGm6/CZhRYZtIH9PXE+yPZg7Ry0MBGGjVuHBeyotaxN+Xkb+qKawfoboB5NHoWeYiFq/JXRP1XW6oXOyF7A8R7Omw3u1r19UbMITLkd8/HaQNWYbuqkWPhIjJW6AWTy14M8Fc0VOS5Pqzr78drVLdzHh4+gwq9uByjirew+yWGFKyuIdYHS4jfBwdweQcE=
+  on:
+    tags: true
+    repo: ClouDesire/cloudesire.js

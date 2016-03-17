@@ -1,8 +1,28 @@
 {
   "name": "cloudesire.js",
-  "version": "0.0.2",
-  "main": "cloudesire.js",
-  "dependencies": {	
-    "rest": "~1.3.1"
-  }
+  "version": "1.0.0",
+  "homepage": "https://github.com/ClouDesire/cloudesire.js",
+  "authors": [
+    "dev@cloudesire.com"
+  ],
+  "description": "ClouDesire Web API Client",
+  "main": "lib/client.web.js",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "ClouDesire",
+    "js",
+    "es6",
+    "client",
+    "rest"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
 }
