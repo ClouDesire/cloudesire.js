@@ -4,9 +4,9 @@
   "description": "ClouDesire API Client",
   "main": "lib/client.js",
   "scripts": {
-    "compile": "babel src -d lib && browserify src/client.js -t [babelify --no-sourceMaps] -p [minifyify --no-map] -s cd -o lib/client.web.js",
+    "compile": "babel src -d lib && browserify src/client.js -t [babelify --no-sourceMaps] -p [minifyify --no-map] -s cloudesire -o lib/client.web.js",
     "prepublish": "npm run compile",
-    "docs": "documentation build src/client.js -o README.md -f md",
+    "docs": "cat README.md.template > README.md && documentation build src/client.js -f md -c config.json >> README.md",
     "test": "npm run eslint && npm run compile && istanbul cover _mocha -- --compilers js:babel-register -R spec test/ && cat ./coverage/lcov.info | coveralls",
     "eslint": "eslint src",
     "test-dev": "npm run eslint && npm run compile && mocha --compilers js:babel-register"
@@ -40,6 +40,7 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^5.2.0",
     "coveralls": "^2.11.8",
+    "documentation": "^4.0.0-beta1",
     "eslint": "^2.4.0",
     "fetch-mock": "^4.1.1",
     "istanbul": "^1.0.0-alpha.2",

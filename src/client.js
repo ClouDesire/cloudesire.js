@@ -17,3 +17,5 @@ export default class Client {
     this.productVersion = new ProductVersion(this)
   }
 }
+
+export { Client as Client }
