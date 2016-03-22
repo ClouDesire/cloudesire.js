@@ -5,9 +5,6 @@
 # cloudesire.js
 The official low-level ClouDesire client for Node.js and the browser.
 
-## Features
-
-- a Simple feature
 
 ## Use in Node.js
 
