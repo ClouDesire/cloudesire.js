@@ -21,7 +21,6 @@ var client = new CDClient()
 var products = client.product.all()
 ```
 
-[![NPM Stats](https://nodei.co/npm/cloudesire.js.png?downloads=true)](https://npmjs.org/package/cloudesire.js)
 
 ## Use in the Browser
 
