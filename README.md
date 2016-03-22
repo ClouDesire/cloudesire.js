@@ -10,7 +10,7 @@ The official low-level ClouDesire client for Node.js and the browser.
 
 Install via npm
 ```
-npm install cloudesire.js --save
+npm install cloudesire.js
 ```
 
 and use it
@@ -21,13 +21,12 @@ var client = new CDClient()
 var products = client.product.all()
 ```
 
-[![NPM Stats](https://nodei.co/npm/cloudesire.js.png?downloads=true)](https://npmjs.org/package/cloudesire.js)
 
 ## Use in the Browser
 
 Install via bower
 ```
-bower install cloudesire.js --save
+bower install cloudesire.js
 ```
 
 Include the library in your application
@@ -37,7 +36,7 @@ Include the library in your application
 
 and use it
 ```
-var client = cloudesire.Client()
+var client = new cloudesire.Client()
 var products = client.product.all()
 ```
 

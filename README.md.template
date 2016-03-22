@@ -36,7 +36,7 @@ Include the library in your application
 
 and use it
 ```
-var client = cloudesire.Client()
+var client = new cloudesire.Client()
 var products = client.product.all()
 ```
 
