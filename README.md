@@ -11,16 +11,38 @@ The official low-level ClouDesire client for Node.js and the browser.
 
 ## Use in Node.js
 
+Install via npm
 ```
-npm install elasticsearch
+npm install cloudesire.js
+```
+
+and use it
+```
+var CDClient = require('cloudesire.js')
+var client = new CDClient()
+
+var products = client.product.all()
 ```
 
 [![NPM Stats](https://nodei.co/npm/cloudesire.js.png?downloads=true)](https://npmjs.org/package/cloudesire.js)
 
 ## Use in the Browser
 
-Check out the [Browser Builds](http://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/browser-builds.html) doc page for help downloading and setting up the client for use in the browser.
+Install via bower
+```
+bower install cloudesire.js
+```
 
+Include the library in your application
+```
+<script src="bower_components/cloudesire.js/lib/client.web.js"></script>
+```
+
+and use it
+```
+var client = cloudesire.Client()
+var products = client.product.all()
+```
 
 # API Usage
 # Options
