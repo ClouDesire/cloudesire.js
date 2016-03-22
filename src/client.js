@@ -3,6 +3,7 @@
 import fetchival from 'fetchival'
 import Product from './resources/Product'
 import ProductVersion from './resources/ProductVersion'
+import Category from './resources/Category'
 
 const BASE_URL = 'https://backend.cloudesire.com/api'
 
@@ -15,6 +16,7 @@ export default class Client {
     this.request = fetchival
     this.product = new Product(this)
     this.productVersion = new ProductVersion(this)
+    this.category = new Category(this)
   }
 }
 
