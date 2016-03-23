@@ -44,7 +44,10 @@ export default class Client {
   * 	.then(client.user.me)
   * 	.then(function(user) {
   *   	return 'It\'s me! ' + user.name
-  * })
+  *   })
+  *   .catch(function(err) {
+  *     console.log(err)
+  *   })
   */
   login(...args) {
     const [username, password, token] = args
