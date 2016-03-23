@@ -10,7 +10,7 @@ The official low-level ClouDesire client for Node.js and the browser.
 
 Install via npm
 ```
-npm install cloudesire.js
+npm install cloudesire.js --save
 ```
 
 and use it
@@ -24,9 +24,17 @@ var products = client.product.all()
 
 ## Use in the Browser
 
-Install via bower
+Install via npm or bower
 ```
-bower install cloudesire.js
+npm install cloudesire.js --save
+bower install cloudesire.js --save
+```
+
+Older [browsers](http://caniuse.com/) may need the polyfill of both [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) and [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
+A simple example of usage in an old browser is in the [browser tests](https://github.com/ClouDesire/cloudesire.js/tree/master/test/flow.spec.html).
+```
+npm install es6-promise
+npm install whatwg-fetch
 ```
 
 Include the library in your application
