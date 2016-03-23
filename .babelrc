@@ -1,4 +1,4 @@
 {
   "presets": ["es2015", "stage-0"],
-  "plugins": ["transform-undefined-to-void"]
+  "plugins": ["transform-undefined-to-void", "transform-object-assign"]
 }

@@ -43,14 +43,28 @@ var products = client.product.all()
 # API Usage
 # Options
 
+Options that can be passed to the api methods
+
 **Properties**
 
 -   `pageSize` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Size of the page to retrieve.
 -   `pageNumber` **[Number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** Number of the page to retrieve.
 
+**Examples**
+
+```javascript
+// Retrieve the second page of the results
+var options = {
+  pageSize: 6,
+  pageNumber 2
+};
+var client = new cloudesire.Client()
+var products = client.product.all(options);
+```
+
 # PaginatedResponse
 
-An array plus the the pagination properties
+An array object that contains the current pagination informations
 
 **Properties**
 
@@ -59,9 +73,28 @@ An array plus the the pagination properties
 -   `The` **totalItems** number of the total pages
 -   `The` **pageNumber** of the current page
 
+**Examples**
+
+```javascript
+var client = new cloudesire.Client()
+var productsArray = client.product.all() // This returns a PaginatedResponse array object
+var totalPages = productsArray.totalPages
+var pageSize = productsArray.pageSize
+var totalItems = productsArray.totalItems
+var pageNumber = productsArray.pageNumber
+```
+
 # Category
 
 **Extends BaseResource**
+
+**Examples**
+
+```javascript
+var client = new cloudesire.Client()
+var categories = client.category.all()
+var categoryWithID2 = client.category.one(2)
+```
 
 # Product
 

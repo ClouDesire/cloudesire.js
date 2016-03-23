@@ -2,8 +2,17 @@
 
 /**
  * @typedef {Object} Options
+ * @description Options that can be passed to the api methods
  * @property {Number} pageSize - Size of the page to retrieve.
  * @property {Number} pageNumber - Number of the page to retrieve.
+ * @example
+ * // Retrieve the second page of the results
+ * var options = {
+ *   pageSize: 6,
+ *   pageNumber 2
+ * };
+ * var client = new cloudesire.Client()
+ * var products = client.product.all(options);
  */
 
 import PaginatedResponse from './PaginatedResponse'

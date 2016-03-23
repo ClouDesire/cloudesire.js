@@ -1,11 +1,18 @@
 'use strict';
 
 /**
- * An array plus the the pagination properties
+ * An array object that contains the current pagination informations
  * @property {totalPages} The on the server
  * @property {pageSize} The of the current page
  * @property {totalItems} The number of the total pages
  * @property {pageNumber} The of the current page
+ * @example
+ * var client = new cloudesire.Client()
+ * var productsArray = client.product.all() // This returns a PaginatedResponse array object
+ * var totalPages = productsArray.totalPages
+ * var pageSize = productsArray.pageSize
+ * var totalItems = productsArray.totalItems
+ * var pageNumber = productsArray.pageNumber
  */
 export default class PaginatedResponse extends Array {
   constructor(args, headers) {
