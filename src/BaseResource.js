@@ -23,6 +23,9 @@ export default class BaseResource {
   constructor(self) {
     this.self = self
     this.baseUrl = this.self.baseUrl
+    this.username = this.self.username
+    this.password = this.self.password
+    this.token = this.self.token
   }
 
   /**
@@ -56,6 +59,10 @@ export default class BaseResource {
     return this._get(this.path, undefined, queryParams, options)
   }
 
+  customGET(path, options = {}, queryParams = {}) {
+    return this._get(`${this.path}${path}`, undefined, queryParams, options)
+  }
+
   //////////////////////////////////////////////////////////////////////////////
 
   _get(path, id, params, options) {
@@ -64,12 +71,25 @@ export default class BaseResource {
         {
           mode: 'cors',
           responseAs: 'response',
+          headers: this._buildAuthenticationObject(
+            this.username, this.password, this.token
+          )
         }).get(this._objectOrNull(Object.assign({}, this._buildPaginationObject(options), params)))
     )
   }
 
   _objectOrNull(object) {
     return isEmpty(object) ? undefined : object
+  }
+
+  _buildAuthenticationObject(...args) {
+    const [username, password, token] = args
+    const authbasic = new Buffer(`${username}:${password}`).toString('base64')
+    return {
+      'Authorization': `Basic ${authbasic}`,
+      'CMW-Auth-User': username,
+      'CMW-Auth-Token': token
+    }
   }
 
   _buildPaginationObject(options) {

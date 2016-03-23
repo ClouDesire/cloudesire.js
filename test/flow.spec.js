@@ -53,10 +53,16 @@ describe('Product / ProductVersion / Category API', function() {
         })
         .mock(/api\/productVersion\?product\=1$/, 'GET', [{id: 1}])
         .mock(/api\/category$/, 'GET', [{id: 1, name:'office'}, {id: 2, name: 'CMS'}])
+        .mock((url, opts) => {
+          return url.match(/api\/product\/test\/auth\/headers$/)
+            && opts.headers['CMW-Auth-User'] === 'peppa'
+            && opts.headers['CMW-Auth-Token'] === 'abc'
+            && opts.headers['Authorization'] === 'Basic cGVwcGE6cGln'
+        }, 'GET', {})
         .getMock()
     )
 
-    client = new (require('../lib/client').default)()
+    client = new (require('../lib/client').default)({username: 'peppa', password: 'pig', token: 'abc'})
   })
 
   after(function() {
@@ -176,5 +182,11 @@ describe('Product / ProductVersion / Category API', function() {
       .to.eventually.is.an('array')
       .to.deep.include({id: 1, name: 'office'}, {id: 2, name: 'CMS'})
       .with.length.be(2)
+  });
+
+  it('should have the authentication headers', function() {
+    return expect(client.product.customGET('/test/auth/headers'))
+      .to.eventually.is.an('object')
+      .to.be.empty
   });
 })
