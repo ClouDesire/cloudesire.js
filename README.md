@@ -30,10 +30,12 @@ npm install cloudesire.js --save
 bower install cloudesire.js --save
 ```
 
-Older [browsers](http://caniuse.com/) may need the polyfill of both [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) and [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).
-A simple example of usage in an old browser is in the [browser tests](https://github.com/ClouDesire/cloudesire.js/tree/master/test/flow.spec.html).
+Older [browsers](http://caniuse.com/) may need the polyfill of both [fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) and [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) apis.
+A simple example of usage in an old browser can be found in the [browser tests](https://github.com/ClouDesire/cloudesire.js/tree/master/test/flow.spec.html).
 ```
+#promise polyfill
 npm install es6-promise
+#fetch polyfill
 npm install whatwg-fetch
 ```
 
