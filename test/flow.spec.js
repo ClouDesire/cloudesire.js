@@ -14,7 +14,7 @@ chai.use(chaiAsPromised)
 let expect = chai.expect, server, client
 
 describe('Product / ProductVersion / Category API', function() {
-  before(function() {
+  before(() => {
     mockery.enable({
       useCleanCache: true,
       warnOnReplace: false,
@@ -62,13 +62,15 @@ describe('Product / ProductVersion / Category API', function() {
         .getMock()
     )
 
-    client = new (require('../lib/client').default)({username: 'peppa', password: 'pig', token: 'abc'})
+    client = new (require('../lib/client').default)()
   })
 
-  after(function() {
+  after(() => {
       mockery.deregisterMock('node-fetch')
       mockery.disable()
   })
+
+  afterEach(() => client.logout())
 
   it('should list all the products', function() {
     return expect(client.product.all())
@@ -185,6 +187,7 @@ describe('Product / ProductVersion / Category API', function() {
   });
 
   it('should have the authentication headers', function() {
+    client.login('peppa', 'pig', 'abc')
     return expect(client.product.customGET('/test/auth/headers'))
       .to.eventually.is.an('object')
       .to.be.empty

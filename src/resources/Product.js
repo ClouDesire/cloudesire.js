@@ -14,11 +14,11 @@ class Product extends BaseResource {
    * @method allByNameOrVendorName
    * @param  {String} name the name of the product or the vendor
    * @param  {Options} [options={}] the options to pass to the request
-   * @return {PaginatedResponse} the list of products retrieved
+   * @return {Promise<PaginatedResponse>} a promise resolved with the paginated response array object
    * @example
    * var client = new cloudesire.Client()
-   * var productsByCloudesire = client.product.allByNameOrVendorName('cloudesire')
-   * var wordpressProducts = client.product.allByNameOrVendorName('wordpress')
+   * var productsByCloudesirePromise = client.product.allByNameOrVendorName('cloudesire')
+   * var wordpressProductsPromise = client.product.allByNameOrVendorName('wordpress')
    */
   allByNameOrVendorName(name, options = {}) {
     return this.all(options, {'name': name})
@@ -29,10 +29,10 @@ class Product extends BaseResource {
    * Retrieve all the featured products
    * @method allFeatured
    * @param  {Options} [options={}] the options to pass to the request
-   * @return {PaginatedResponse} the list of products retrieved
+   * @return {Promise<PaginatedResponse>} a promise resolved with the paginated response array object
    * @example
    * var client = new cloudesire.Client()
-   * var featuredProducts = client.product.allFeatured({pageSize: 50, pageNumber: 2})
+   * var featuredProductsPromise = client.product.allFeatured({pageSize: 50, pageNumber: 2})
    */
   allFeatured(options = {}) {
     return this.all(options, {'featured': true})
@@ -43,10 +43,10 @@ class Product extends BaseResource {
    * @method allByCategory
    * @param  {Number} category id of the category
    * @param  {Options} [options={}] the options to pass to the request
-   * @return {PaginatedResponse} the list of products retrieved
+   * @return {Promise<PaginatedResponse>} a promise resolved with the paginated response array object
    * @example
    * var client = new cloudesire.Client()
-   * var productOfCategory2 = client.product.allByCategory(2, {pageSize: 5, pageNumber: 1})
+   * var productOfCategory2Promise = client.product.allByCategory(2, {pageSize: 5, pageNumber: 1})
    */
   allByCategory(category, options = {}) {
     return this.all(options, {'category': category})
@@ -57,10 +57,10 @@ class Product extends BaseResource {
    * @method allByCategoryAndFeatured
    * @param  {Number} category id of the category
    * @param  {Options} [options={}] the options to pass to the request
-   * @return {PaginatedResponse} the list of products retrieved
+   * @return {Promise<PaginatedResponse>} a promise resolved with the paginated response array object
    * @example
    * var client = new cloudesire.Client()
-   * var featuredProductsOfCategory5 = client.product.allByCategoryAndFeatured(5)
+   * var featuredProductsOfCategory5Promise = client.product.allByCategoryAndFeatured(5)
    */
   allByCategoryAndFeatured(category, options = {}) {
     return this.all(options, {'category': category, 'featured': true})
@@ -70,10 +70,10 @@ class Product extends BaseResource {
    * Retrieve all the owned products
    * @method allByCategory
    * @param  {Options} [options={}] the options to pass to the request
-   * @return {PaginatedResponse} the list of products retrieved
+   * @return {Promise<PaginatedResponse>} a promise resolved with the paginated response array object
    * @example
    * var client = new cloudesire.Client()
-   * var mineProducts = client.product.allOwned()
+   * var mineProductsPromise = client.product.allOwned()
    */
   allOwned(options = {}) {
     return this.all(options, {'ownCompany': true})
@@ -87,13 +87,13 @@ class Product extends BaseResource {
    * @param  {String} [tag=undefined] tag of the product
    * @param  {String} [ordering=undefined] can be `TOPTRIED` or `TOPSOLD`
    * @param  {Options} [options] the options to pass to the request
-   * @return {PaginatedResponse} The result of the search
+   * @return {Promise<PaginatedResponse>} a promise resolved with the paginated response array object
    * @example
    * var client = new cloudesire.Client()
-   * var productsThatContainsGAME = client.product.searchAndSort('game')
-   * var productsThatContainsGAMEInCategory10 = client.product.searchAndSort('game', 10)
-   * var productsInCategory5TaggedWithOPEN_SOURCE = client.product.searchAndSort(null, 10, 'OPEN_SOURCE')
-   * var secondPageOfAllProductsOrderedByTopTried = client.product.searchAndSort(null, null, null, 'TOPTRIED', {pageNumber: 2})
+   * var productsThatContainsGAMEPromise = client.product.searchAndSort('game')
+   * var productsThatContainsGAMEInCategory10Promise = client.product.searchAndSort('game', 10)
+   * var productsInCategory5TaggedWithOPEN_SOURCEPromise = client.product.searchAndSort(null, 10, 'OPEN_SOURCE')
+   * var secondPageOfAllProductsOrderedByTopTriedPromise = client.product.searchAndSort(null, null, null, 'TOPTRIED', {pageNumber: 2})
    */
   searchAndSort(name, category, tag, ordering, options = {}) {
     return this.all(options, {

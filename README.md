@@ -69,7 +69,7 @@ var options = {
   pageNumber 2
 };
 var client = new cloudesire.Client()
-var products = client.product.all(options);
+var productsPromise = client.product.all(options);
 ```
 
 # PaginatedResponse
@@ -100,17 +100,56 @@ Contains all the instantiated resources classes
 
 **Parameters**
 
--   `args` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Configuration object, possible properties are `username`, `password` and `token`
+-   `baseUrl` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** override the server base url
 
 **Examples**
 
 ```javascript
-var client = new cloudesire.Client({
-  username: 'myUser',
-  password: 'thePassword',
-  token: 'insteadOfThePasswordICanPassAToken'
+var client = new cloudesire.Client('https://staging-cr.cloudesire.com/api')
+```
+
+## login
+
+Login with the given username, password or token
+
+**Parameters**
+
+-   `username` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)=** the username
+-   `password` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)=** the password
+-   `token` **[String](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)=** the token
+-   `args` **...** 
+
+**Examples**
+
+```javascript
+var client = new cloudesire.Client()
+var helloStatement = client
+	.login('peppa', 'pig')
+	.then(client.user.me)
+	.then(function(user) {
+  	return 'It\'s me! ' + user.name
 })
 ```
+
+Returns **[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)** resolved with a true value
+
+## logout
+
+Logout the current user
+
+**Examples**
+
+```javascript
+var client = new cloudesire.Client()
+client
+	.logout()
+	.then(function() {
+	  console.log('Logged out!!!')
+	})
+})
+```
+
+Returns **[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)** resolved with a true value
 
 # Category
 
@@ -120,9 +159,24 @@ var client = new cloudesire.Client({
 
 ```javascript
 var client = new cloudesire.Client()
-var categories = client.category.all()
-var categoryWithID2 = client.category.one(2)
+var categoriesPromise = client.category.all()
+var categoryWithID2Promise = client.category.one(2)
 ```
+
+## me
+
+Retrieve the current user
+
+**Examples**
+
+```javascript
+var client = new cloudesire.Client({username: 'peppa', password: 'pig'})
+client.product.me().then(function(user) {
+	console.log(user) // prints {id: 1, username: 'peppa', ...}
+})
+```
+
+Returns **[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).&lt;[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)>** a promise resolved with current user
 
 # Product
 
@@ -143,10 +197,10 @@ Retrieve products filtered by category
 
 ```javascript
 var client = new cloudesire.Client()
-var productOfCategory2 = client.product.allByCategory(2, {pageSize: 5, pageNumber: 1})
+var productOfCategory2Promise = client.product.allByCategory(2, {pageSize: 5, pageNumber: 1})
 ```
 
-Returns **PaginatedResponse** the list of products retrieved
+Returns **[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).&lt;PaginatedResponse>** a promise resolved with the paginated response array object
 
 ## allByCategoryAndFeatured
 
@@ -161,10 +215,10 @@ Retrieve featured products filtered by category
 
 ```javascript
 var client = new cloudesire.Client()
-var featuredProductsOfCategory5 = client.product.allByCategoryAndFeatured(5)
+var featuredProductsOfCategory5Promise = client.product.allByCategoryAndFeatured(5)
 ```
 
-Returns **PaginatedResponse** the list of products retrieved
+Returns **[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).&lt;PaginatedResponse>** a promise resolved with the paginated response array object
 
 ## allByNameOrVendorName
 
@@ -179,11 +233,11 @@ Retrieve all the products filtered by name or by vendor name
 
 ```javascript
 var client = new cloudesire.Client()
-var productsByCloudesire = client.product.allByNameOrVendorName('cloudesire')
-var wordpressProducts = client.product.allByNameOrVendorName('wordpress')
+var productsByCloudesirePromise = client.product.allByNameOrVendorName('cloudesire')
+var wordpressProductsPromise = client.product.allByNameOrVendorName('wordpress')
 ```
 
-Returns **PaginatedResponse** the list of products retrieved
+Returns **[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).&lt;PaginatedResponse>** a promise resolved with the paginated response array object
 
 ## allFeatured
 
@@ -197,10 +251,10 @@ Retrieve all the featured products
 
 ```javascript
 var client = new cloudesire.Client()
-var featuredProducts = client.product.allFeatured({pageSize: 50, pageNumber: 2})
+var featuredProductsPromise = client.product.allFeatured({pageSize: 50, pageNumber: 2})
 ```
 
-Returns **PaginatedResponse** the list of products retrieved
+Returns **[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).&lt;PaginatedResponse>** a promise resolved with the paginated response array object
 
 ## allOwned
 
@@ -214,10 +268,10 @@ Retrieve all the owned products
 
 ```javascript
 var client = new cloudesire.Client()
-var mineProducts = client.product.allOwned()
+var mineProductsPromise = client.product.allOwned()
 ```
 
-Returns **PaginatedResponse** the list of products retrieved
+Returns **[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).&lt;PaginatedResponse>** a promise resolved with the paginated response array object
 
 ## searchAndSort
 
@@ -235,13 +289,13 @@ Search products by parts of the name, category, tags and sort results by top sol
 
 ```javascript
 var client = new cloudesire.Client()
-var productsThatContainsGAME = client.product.searchAndSort('game')
-var productsThatContainsGAMEInCategory10 = client.product.searchAndSort('game', 10)
-var productsInCategory5TaggedWithOPEN_SOURCE = client.product.searchAndSort(null, 10, 'OPEN_SOURCE')
-var secondPageOfAllProductsOrderedByTopTried = client.product.searchAndSort(null, null, null, 'TOPTRIED', {pageNumber: 2})
+var productsThatContainsGAMEPromise = client.product.searchAndSort('game')
+var productsThatContainsGAMEInCategory10Promise = client.product.searchAndSort('game', 10)
+var productsInCategory5TaggedWithOPEN_SOURCEPromise = client.product.searchAndSort(null, 10, 'OPEN_SOURCE')
+var secondPageOfAllProductsOrderedByTopTriedPromise = client.product.searchAndSort(null, null, null, 'TOPTRIED', {pageNumber: 2})
 ```
 
-Returns **PaginatedResponse** The result of the search
+Returns **[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).&lt;PaginatedResponse>** a promise resolved with the paginated response array object
 
 # ProductVersion
 
@@ -262,10 +316,10 @@ Retrieve all the versions that belongs to a product
 
 ```javascript
 var client = new cloudesire.Client()
-var productVersions = client.productVersion.ofProduct(5)
+var productVersionsPromise = client.productVersion.ofProduct(5)
 ```
 
-Returns **PaginatedResponse** the list of product versions retrieved
+Returns **[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).&lt;PaginatedResponse>** a promise resolved with the paginated response array object
 
 # BaseResource
 
@@ -284,13 +338,15 @@ Retrieve a list of resources
 
 ```javascript
 var client = new cloudesire.Client()
-var products = client.product.all({pageSize: 5, pageNumber: 1})
-var currentPage = products.pageNumber
-var totalPages = products.totalPages
-var categories = client.category.all()
+var productsPromise = client.product.all({pageSize: 5, pageNumber: 1})
+productsPromise.then(function(products) {
+  var currentPage = products.pageNumber
+  var totalPages = products.totalPages
+  var categories = client.category.all()
+})
 ```
 
-Returns **PaginatedResponse** the list of JSON repesentation of the objects retrieved
+Returns **[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).&lt;PaginatedResponse>** a promise resolved with the paginated response array object
 
 ## one
 
@@ -305,7 +361,19 @@ Retrieve a single resource
 
 ```javascript
 var client = new cloudesire.Client()
-var product = client.product.one(10, {featured: true})
+var productPromise = client.product.one(10, {featured: true})
 ```
 
-Returns **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** the JSON repesentation of the object retrieved
+Returns **[Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise).&lt;[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)>** a promise resolved with the resource retrieved
+
+# User
+
+**Extends BaseResource**
+
+**Examples**
+
+```javascript
+var client = new cloudesire.Client()
+var usersPromise = client.user.all()
+var aUserPromise = client.user.one(2)
+```

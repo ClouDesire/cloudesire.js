@@ -12,7 +12,7 @@
  *   pageNumber 2
  * };
  * var client = new cloudesire.Client()
- * var products = client.product.all(options);
+ * var productsPromise = client.product.all(options);
  */
 
 import PaginatedResponse from './PaginatedResponse'
@@ -23,9 +23,6 @@ export default class BaseResource {
   constructor(self) {
     this.self = self
     this.baseUrl = this.self.baseUrl
-    this.username = this.self.username
-    this.password = this.self.password
-    this.token = this.self.token
   }
 
   /**
@@ -33,10 +30,10 @@ export default class BaseResource {
   * @method one
   * @param  {Number} id id the resource
   * @param  {Object} [queryParams={}] query parameters object
-  * @return {Object} the JSON repesentation of the object retrieved
+  * @return {Promise<Object>} a promise resolved with the resource retrieved
   * @example
   * var client = new cloudesire.Client()
-  * var product = client.product.one(10, {featured: true})
+  * var productPromise = client.product.one(10, {featured: true})
   */
   one(id, queryParams = {}) {
     return this._get(this.path, id, queryParams)
@@ -47,13 +44,15 @@ export default class BaseResource {
   * @method all
   * @param  {Options} [options={}]
   * @param  {Object} [queryParams={}] query parameters object
-  * @return {PaginatedResponse} the list of JSON repesentation of the objects retrieved
+  * @return {Promise<PaginatedResponse>} a promise resolved with the paginated response array object
   * @example
   * var client = new cloudesire.Client()
-  * var products = client.product.all({pageSize: 5, pageNumber: 1})
-  * var currentPage = products.pageNumber
-  * var totalPages = products.totalPages
-  * var categories = client.category.all()
+  * var productsPromise = client.product.all({pageSize: 5, pageNumber: 1})
+  * productsPromise.then(function(products) {
+  *   var currentPage = products.pageNumber
+  *   var totalPages = products.totalPages
+  *   var categories = client.category.all()
+  * })
   */
   all(options = {}, queryParams = {}) {
     return this._get(this.path, undefined, queryParams, options)
@@ -72,7 +71,7 @@ export default class BaseResource {
           mode: 'cors',
           responseAs: 'response',
           headers: this._buildAuthenticationObject(
-            this.username, this.password, this.token
+            this.self.username, this.self.password, this.self.token
           )
         }).get(this._objectOrNull(Object.assign({}, this._buildPaginationObject(options), params)))
     )

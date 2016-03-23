@@ -3,7 +3,8 @@
   describe('Works in the browser ?', function() {
     before(function() {
       fetchMock.mock(function() { return true }, 'GET', [{id: 1}, {id: 2}])
-      client = new cloudesire.Client({username: 'peppa', password: 'pig'})
+      client = new cloudesire.Client()
+      client.login({username: 'peppa', password: 'pig'})
     })
 
     it('should list all the products', function() {

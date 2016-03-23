@@ -14,10 +14,10 @@ class ProductVersion extends BaseResource {
   * @method ofProduct
   * @param  {Number} id the id the product
   * @param  {Options} [options={}]
-  * @return {PaginatedResponse} the list of product versions retrieved
+  * @return {Promise<PaginatedResponse>} a promise resolved with the paginated response array object
   * @example
   * var client = new cloudesire.Client()
-  * var productVersions = client.productVersion.ofProduct(5)
+  * var productVersionsPromise = client.productVersion.ofProduct(5)
   */
   ofProduct(id = this.mandatory('id'), options = {}) {
     return this.all(options, {'product': id})
