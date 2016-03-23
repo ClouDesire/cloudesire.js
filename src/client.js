@@ -11,6 +11,7 @@ export default class Client {
   constructor(baseUrl) {
     if(typeof window === 'undefined')
       fetchival.fetch = require('node-fetch')
+    else fetchival.fetch = window.fetch
 
     this.baseUrl = baseUrl || BASE_URL
     this.request = fetchival

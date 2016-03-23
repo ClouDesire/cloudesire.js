@@ -18,9 +18,9 @@ export default class PaginatedResponse extends Array {
   constructor(args, headers) {
     super(...args)
 
-    this.totalPages = headers['cmw-totalpages'] ? parseInt(headers['cmw-totalpages'][0]) : void 0
-    this.pageSize = headers['cmw-pagesize'] ? parseInt(headers['cmw-pagesize'][0]) : void 0
-    this.totalItems = headers['cmw-totalitems'] ? parseInt(headers['cmw-totalitems'][0]) : void 0
-    this.pageNumber = headers['cmw-pagenumber'] ? parseInt(headers['cmw-pagenumber'][0]) : void 0
+    this.totalPages = headers.has('cmw-totalpages') ? parseInt(headers.get('cmw-totalpages')) : void 0
+    this.pageSize = headers.has('cmw-pagesize') ? parseInt(headers.get('cmw-pagesize')) : void 0
+    this.totalItems = headers.has('cmw-totalitems') ? parseInt(headers.get('cmw-totalitems')) : void 0
+    this.pageNumber = headers.has('cmw-pagenumber') ? parseInt(headers.get('cmw-pagenumber')) : void 0
   }
 }

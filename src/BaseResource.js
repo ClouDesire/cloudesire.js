@@ -83,7 +83,7 @@ export default class BaseResource {
 
   _wrap(promise) {
     return promise.then((response) => {
-      var headers = response.headers._headers
+      var headers = response.headers
       return response.json().then((data) => {
         if(Array.isArray(data)) return new PaginatedResponse(data, headers)
         else return data
