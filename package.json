@@ -6,7 +6,7 @@
   "scripts": {
     "compile": "babel src -d lib && browserify src/client.js -t [babelify --no-sourceMaps] -p [minifyify --no-map] -s cloudesire -o lib/client.web.js",
     "prepublish": "npm run compile",
-    "docs": "cat README.md.template > README.md && documentation build src/resources/*.js -f md -c config.json >> README.md",
+    "docs": "cat README.md.template > README.md && documentation build src/client.js src/resources/*.js -f md -c config.json >> README.md",
     "test": "npm run eslint && npm run compile && npm run mocha && npm run phantomjs",
     "mocha": "istanbul cover _mocha -- --compilers js:babel-register -R spec test/flow.spec.js && cat ./coverage/lcov.info | coveralls",
     "phantomjs": "mocha-phantomjs --ignore-ssl-errors=true test/flow.spec.html",

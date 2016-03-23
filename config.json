@@ -1,3 +1,3 @@
 {
-  "order": ["Options", "PaginatedResponse", "Category", "Product", "ProductVersion"]
+  "order": ["Options", "PaginatedResponse", "Client", "Category", "Product", "ProductVersion"]
 }

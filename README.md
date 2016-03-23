@@ -92,6 +92,24 @@ var totalItems = productsArray.totalItems
 var pageNumber = productsArray.pageNumber
 ```
 
+# Client
+
+Contains all the instantiated resources classes
+
+**Parameters**
+
+-   `args` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** Configuration object, possible properties are `username`, `password` and `token`
+
+**Examples**
+
+```javascript
+var client = new cloudesire.Client({
+  username: 'myUser',
+  password: 'thePassword',
+  token: 'insteadOfThePasswordICanPassAToken'
+})
+```
+
 # Category
 
 **Extends BaseResource**

@@ -7,6 +7,17 @@ import Category from './resources/Category'
 
 const BASE_URL = 'https://backend.cloudesire.com/api'
 
+/**
+ * Contains all the instantiated resources classes
+ * @constructor
+ * @param {object} args Configuration object, possible properties are `username`, `password` and `token`
+ * @example
+ * var client = new cloudesire.Client({
+ *   username: 'myUser',
+ *   password: 'thePassword',
+ *   token: 'insteadOfThePasswordICanPassAToken'
+ * })
+ */
 export default class Client {
   constructor(args) {
     const {baseUrl, username, password, token} = args
